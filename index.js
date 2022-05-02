@@ -98,6 +98,14 @@ const convert_to_pdf = (file_path, new_path, cb) => {
   }
 };
 
+app.get("/", (req, res, next) => {
+  try {
+    res.send("Ademola");
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+});
+
 app.post("/feedback", async (req, res, next) => {
   try {
     const { name, email, data } = req.body;
@@ -117,7 +125,6 @@ app.post("/feedback", async (req, res, next) => {
 //endPoint
 app.post("/send_cv", async (req, res, next) => {
   upload(req, res, async (err) => {
-    
     if (err instanceof multer.MulterError) {
       //check for multer error
       const errorMsg = { message: err.message, status: 500 };
@@ -127,7 +134,6 @@ app.post("/send_cv", async (req, res, next) => {
       const errorMsg = { message: err.message, status: 500 };
       return next(errorMsg);
     } else {
-      
       const email = req.body.email;
       // if (!email) {
       //   return next({ message: "All field is required" });
@@ -212,7 +218,7 @@ app.post("/send_cv", async (req, res, next) => {
 
 app.use((error, req, res, next) => {
   const status = error.status || 500;
-  
+
   const message =
     error.message === "getaddrinfo ENOTFOUND api.sendgrid.com"
       ? "Please try again"
